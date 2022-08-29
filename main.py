@@ -6,6 +6,18 @@ import time
 SIZE = 40
 
 
+class Apple:
+    def __init__(self, parent_screen):
+        self.parent_screen = parent_screen
+        self.image = pygame.image.load('resources/apple.jpg').convert()
+        self.x = SIZE * 3
+        self.y = SIZE * 3
+
+    def draw(self):
+        self.parent_screen.blit(self.image, (self.x, self.y))
+        pygame.display.flip()
+
+
 class Snake:
     def __init__(self, parent_screen, length=3):
         self.parent_screen = parent_screen
@@ -53,10 +65,16 @@ class Snake:
 class Game:
     def __init__(self):
         pygame.init()
-        self.surface = pygame.display.set_mode((1000, 800))
+        self.surface = pygame.display.set_mode((700, 700))
         self.surface.fill((110, 110, 5))
         self.snake = Snake(self.surface)
+        self.apple = Apple(self.surface)
         self.snake.draw()
+        self.apple.draw()
+
+    def play(self):
+        self.snake.walk()
+        self.apple.draw()
 
     def run(self):
         running = True
@@ -79,7 +97,8 @@ class Game:
                 elif event.type == QUIT:
                     running = False
 
-            self.snake.walk()
+            self.play()
+
             time.sleep(0.3)
 
 
